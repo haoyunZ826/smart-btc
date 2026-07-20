@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+.pytest_cache/
+
+# Raw market data is reproducible from scripts/fetch_data.py — the archive
+# cache is kept (CI restores it) but the derived CSVs are not committed.
+data/*.csv
