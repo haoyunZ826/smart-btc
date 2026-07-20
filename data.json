@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T20:55:51.981446+00:00",
+  "generated_at": "2026-07-20T21:21:49.645914+00:00",
   "paper_start": "2026-01-01",
   "config": {
     "name": "trend_core_v1",
@@ -40,7 +40,7 @@
     "bars": 19539,
     "last_bar": "2026-07-20T08:00:00+00:00",
     "last_price": 64298.0,
-    "age_hours": 12.9,
+    "age_hours": 13.4,
     "stale": true
   },
   "profiles": {
