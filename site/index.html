@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>smart_btc · BTC 趋势策略监控</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --surface-0: #0e1013;
+    --surface-1: #171a1f;
+    --surface-2: #21252c;
+    --border:    #2e333c;
+    --text-primary:   #ffffff;
+    --text-secondary: #b9c0cc;
+    --text-muted:     #7d8494;
+    --good:     #16b364;
+    --critical: #e04b4b;
+    --warning:  #f5b014;
+    --accent:   #4a8fe8;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--surface-0);
+    color: var(--text-primary);
+    font: 14px/1.5 -apple-system, "SF Pro Text", "Segoe UI", "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    padding: 24px 20px 64px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  h1 { font-size: 20px; letter-spacing: .02em; }
+  h2 { font-size: 13px; color: var(--text-secondary); letter-spacing: .06em;
+       text-transform: uppercase; margin: 30px 0 10px; }
+  a { color: var(--accent); }
+  .badge {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border);
+    color: var(--text-secondary); text-transform: uppercase;
+  }
+  .badge.long   { color: var(--good); border-color: var(--good); }
+  .badge.flat   { color: var(--text-muted); }
+  .badge.ready  { color: var(--warning); border-color: var(--warning); }
+  .badge.stale  { color: var(--critical); border-color: var(--critical); }
+  .updated { color: var(--text-muted); font-size: 12px; margin-left: auto; }
+  .sub { color: var(--text-muted); font-size: 12.5px; margin: 6px 0 18px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+           gap: 10px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border);
+          border-radius: 10px; padding: 12px 14px; }
+  .tile .k { font-size: 11px; color: var(--text-muted); letter-spacing: .06em;
+             text-transform: uppercase; }
+  .tile .v { font-size: 22px; font-weight: 650; margin-top: 2px;
+             font-variant-numeric: tabular-nums; }
+  .tile .s { font-size: 12px; color: var(--text-secondary);
+             font-variant-numeric: tabular-nums; }
+  .pos { color: var(--good); } .neg { color: var(--critical); }
+  .muted { color: var(--text-muted); }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border);
+          border-radius: 10px; padding: 14px 16px; }
+  .gates { display: grid; gap: 8px; }
+  .gate { display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+          background: var(--surface-2); border-radius: 8px; font-size: 13px; }
+  .gate .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .gate.ok  .dot { background: var(--good); }
+  .gate.no  .dot { background: var(--text-muted); }
+  .gate .lbl { flex: 1; }
+  .gate .det { color: var(--text-muted); font-variant-numeric: tabular-nums;
+               font-size: 12px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px;
+          font-variant-numeric: tabular-nums; }
+  th { text-align: right; color: var(--text-muted); font-weight: 500;
+       font-size: 11px; letter-spacing: .05em; text-transform: uppercase;
+       padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  th:first-child, td:first-child { text-align: left; }
+  td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--surface-2); }
+  tbody tr:hover { background: var(--surface-1); }
+  .scroll { overflow-x: auto; }
+
+  .note { background: var(--surface-1); border: 1px solid var(--border);
+          border-left: 3px solid var(--warning); border-radius: 8px;
+          padding: 12px 16px; font-size: 13px; color: var(--text-secondary); }
+  .note b { color: var(--text-primary); }
+  .note ul { margin: 8px 0 0 18px; } .note li { margin: 4px 0; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tab { font-size: 12px; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+         border: 1px solid var(--border); color: var(--text-secondary);
+         background: var(--surface-1); }
+  .tab.on { background: var(--surface-2); color: var(--text-primary);
+            border-color: var(--accent); }
+  footer { margin-top: 40px; color: var(--text-muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>smart_btc</h1>
+  <span class="badge" id="pos-badge">—</span>
+  <span class="badge" id="signal-badge">—</span>
+  <span class="badge" id="stale-badge" hidden>数据陈旧</span>
+  <span class="updated" id="updated">加载中…</span>
+</header>
+<p class="sub" id="subtitle">BTC/USDT 4h 趋势跟随 · 纸面交易 · 每日自动更新</p>
+
+<div id="app">加载中…</div>
+
+<footer>
+  <span id="foot"></span>
+</footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = {
+  usd: (v, d = 0) => v == null ? "—" : "$" + Number(v).toLocaleString("en-US",
+        { minimumFractionDigits: d, maximumFractionDigits: d }),
+  pct: (v, d = 1) => v == null ? "—" : (v * 100).toFixed(d) + "%",
+  num: (v, d = 2) => v == null ? "—" : Number(v).toFixed(d),
+  sign: (v) => v == null ? "" : (v > 0 ? "pos" : v < 0 ? "neg" : ""),
+};
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g,
+  (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+/** Minimal inline-SVG line chart — no external libraries, CSP-safe. */
+function sparkline(series, opts = {}) {
+  const { w = 1100, h = 220, pad = 34 } = opts;
+  const all = series.flatMap(s => s.values).filter(v => Number.isFinite(v));
+  if (!all.length) return "<p class='muted'>暂无数据</p>";
+  const lo = Math.min(...all), hi = Math.max(...all);
+  const span = (hi - lo) || 1;
+  const n = Math.max(...series.map(s => s.values.length));
+  const x = (i) => pad + (i / Math.max(1, n - 1)) * (w - pad * 2);
+  const y = (v) => h - pad - ((v - lo) / span) * (h - pad * 2);
+
+  const paths = series.map(s => {
+    const d = s.values.map((v, i) =>
+      (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join(" ");
+    return `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${s.width || 1.8}"
+             stroke-linejoin="round" ${s.dash ? `stroke-dasharray="${s.dash}"` : ""}/>`;
+  }).join("");
+
+  const ticks = [lo, lo + span / 2, hi].map(v =>
+    `<line x1="${pad}" y1="${y(v)}" x2="${w - pad}" y2="${y(v)}"
+       stroke="#2e333c" stroke-width="1"/>
+     <text x="4" y="${y(v) + 4}" fill="#7d8494" font-size="10">${
+       v >= 1000 ? (v / 1000).toFixed(1) + "k" : v.toFixed(0)}</text>`).join("");
+
+  const legend = series.map((s, i) =>
+    `<rect x="${pad + i * 130}" y="8" width="10" height="3" fill="${s.color}"/>
+     <text x="${pad + i * 130 + 16}" y="12" fill="#b9c0cc" font-size="11">${esc(s.label)}</text>`
+  ).join("");
+
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}"
+            preserveAspectRatio="none" role="img">${ticks}${paths}${legend}</svg>`;
+}
+
+function tile(k, v, s, cls = "") {
+  return `<div class="tile"><div class="k">${esc(k)}</div>
+          <div class="v ${cls}">${v}</div>
+          <div class="s">${s ?? ""}</div></div>`;
+}
+
+function renderGates(sig) {
+  const rows = Object.entries(sig.gates || {}).map(([, g]) =>
+    `<div class="gate ${g.pass ? "ok" : "no"}">
+       <span class="dot"></span>
+       <span class="lbl">${esc(g.label)}</span>
+       <span class="det">${esc(g.detail)}</span>
+     </div>`).join("");
+  return `<div class="gates">${rows}</div>`;
+}
+
+function renderPosition(p) {
+  if (!p) return `<div class="card muted">当前空仓 — 等待入场条件全部满足。</div>`;
+  return `<div class="card"><div class="tiles">
+    ${tile("方向", p.direction.toUpperCase(), esc(p.entry_time.slice(0, 16)))}
+    ${tile("入场价", fmt.usd(p.entry_price), "名义 " + fmt.usd(p.notional))}
+    ${tile("止损", fmt.usd(p.stop), "初始 " + fmt.usd(p.initial_stop))}
+    ${tile("浮动盈亏", fmt.usd(p.unrealized), p.unrealized_r + "R",
+           fmt.sign(p.unrealized))}
+    ${tile("持仓周期", p.bars_held + " 根", "资金费 " + fmt.usd(p.funding_paid, 2))}
+    ${tile("强平价", fmt.usd(p.liq_price), "")}
+  </div></div>`;
+}
+
+function renderTrades(trades) {
+  if (!trades || !trades.length)
+    return `<div class="card muted">纸面交易开始以来还没有已平仓交易。</div>`;
+  const rows = trades.map(t => `<tr>
+    <td>${esc(t.entry_time.slice(0, 16))}</td>
+    <td>${esc(t.exit_time.slice(0, 16))}</td>
+    <td>${fmt.usd(t.entry_price)}</td>
+    <td>${fmt.usd(t.exit_price)}</td>
+    <td class="${fmt.sign(t.pnl)}">${fmt.usd(t.pnl)}</td>
+    <td class="${fmt.sign(t.r)}">${t.r}R</td>
+    <td>${t.bars_held}</td>
+    <td class="muted">${esc(t.reason)}</td></tr>`).join("");
+  return `<div class="card scroll"><table>
+    <thead><tr><th>入场</th><th>出场</th><th>入场价</th><th>出场价</th>
+    <th>盈亏</th><th>R</th><th>周期</th><th>原因</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+
+function renderBacktest(bt) {
+  if (!bt) return "";
+  let html = "";
+
+  if (bt.comparison) {
+    const rows = Object.entries(bt.comparison).map(([name, s]) => `<tr>
+      <td>${esc(name)}</td><td>${s.trades}</td>
+      <td class="${fmt.sign(s.return)}">${fmt.pct(s.return, 0)}</td>
+      <td>${fmt.pct(s.cagr)}</td>
+      <td class="neg">${fmt.pct(s.maxDD)}</td>
+      <td>${fmt.num(s.sharpe)}</td><td>${fmt.num(s.calmar)}</td>
+      <td>${s.PF == null ? "∞" : fmt.num(s.PF)}</td>
+      <td>${fmt.pct(s.win, 0)}</td></tr>`).join("");
+    html += `<h2>全样本回测 · 2017-08 → 2026-07</h2>
+      <div class="card scroll"><table>
+      <thead><tr><th>策略</th><th>交易数</th><th>总收益</th><th>年化</th>
+      <th>最大回撤</th><th>夏普</th><th>Calmar</th><th>盈亏比</th><th>胜率</th>
+      </tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+
+  if (bt.walk_forward) {
+    const rows = bt.walk_forward.map(w => `<tr>
+      <td>${esc(w.test_period)}</td><td>${w.trades}</td>
+      <td class="${fmt.sign(w.return)}">${fmt.pct(w.return, 0)}</td>
+      <td class="neg">${fmt.pct(w.maxDD)}</td>
+      <td>${fmt.num(w.sharpe)}</td>
+      <td class="${fmt.sign(w.buy_hold)}">${fmt.pct(w.buy_hold, 0)}</td>
+      <td>${w.beat_bh ? "✓" : "—"}</td></tr>`).join("");
+    const won = bt.walk_forward.filter(w => w.return > 0).length;
+    const beat = bt.walk_forward.filter(w => w.beat_bh).length;
+    html += `<h2>走向前验证 · 仅样本外</h2>
+      <p class="sub">每个窗口用前 3 年拟合、只在其后 1 年未见过的数据上计分。
+         盈利窗口 ${won}/${bt.walk_forward.length} · 跑赢买入持有 ${beat}/${bt.walk_forward.length}</p>
+      <div class="card scroll"><table>
+      <thead><tr><th>样本外区间</th><th>交易数</th><th>收益</th><th>回撤</th>
+      <th>夏普</th><th>买入持有</th><th>跑赢</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+  }
+
+  if (bt.equity_curve) {
+    html += `<h2>回测权益曲线（对数尺度）</h2><div class="card">` +
+      sparkline([
+        { label: "策略", color: "#4a8fe8",
+          values: bt.equity_curve.strategy.map(v => Math.log10(Math.max(v, 1))) },
+        { label: "买入持有", color: "#7d8494", dash: "4 3",
+          values: bt.equity_curve.buy_hold.map(v => Math.log10(Math.max(v, 1))) },
+      ]) + `<p class="sub">纵轴为 10 的幂（3 = $1k，6 = $1M）。起始 $10,000。</p></div>`;
+  }
+
+  if (bt.monte_carlo) {
+    const m = bt.monte_carlo;
+    html += `<h2>蒙特卡洛 · 2000 次交易顺序重排</h2><div class="tiles">
+      ${tile("中位数最终权益", fmt.usd(m.median_final))}
+      ${tile("5% 分位", fmt.usd(m.p05_final), "最差情形")}
+      ${tile("中位数最大回撤", fmt.pct(m.median_maxdd), "", "neg")}
+      ${tile("超 50% 回撤概率", fmt.pct(m.prob_ruin_50pct), "",
+             m.prob_ruin_50pct > 0.15 ? "neg" : "")}
+      ${tile("亏损概率", fmt.pct(m.prob_loss))}
+    </div>`;
+  }
+
+  if (bt.per_year) {
+    const rows = Object.entries(bt.per_year).map(([y, s]) => `<tr>
+      <td>${esc(y)}</td><td>${s.trades}</td>
+      <td class="${fmt.sign(s.net_pnl)}">${fmt.usd(s.net_pnl)}</td>
+      <td>${fmt.pct(s.win_rate, 0)}</td>
+      <td class="${fmt.sign(s.avg_r)}">${fmt.num(s.avg_r)}R</td></tr>`).join("");
+    html += `<h2>逐年表现</h2><div class="card scroll"><table>
+      <thead><tr><th>年份</th><th>交易数</th><th>净盈亏</th><th>胜率</th>
+      <th>平均 R</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+
+  if (bt.risk_profiles) {
+    const rows = Object.entries(bt.risk_profiles).map(([n, s]) => `<tr>
+      <td>${esc(n)}</td><td>${fmt.pct(s.risk, 0)}</td><td>${s.lev}x</td>
+      <td class="pos">${fmt.pct(s.return, 0)}</td><td>${fmt.pct(s.cagr)}</td>
+      <td class="neg">${fmt.pct(s.maxDD)}</td><td>${fmt.num(s.sharpe)}</td>
+      <td>${fmt.num(s.calmar)}</td></tr>`).join("");
+    html += `<h2>风险档位 · 同一信号，不同仓位</h2>
+      <div class="card scroll"><table>
+      <thead><tr><th>档位</th><th>单笔风险</th><th>杠杆上限</th><th>总收益</th>
+      <th>年化</th><th>最大回撤</th><th>夏普</th><th>Calmar</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+  }
+  return html;
+}
+
+function render(d) {
+  const profiles = d.profiles || {};
+  let current = d.default_profile || Object.keys(profiles)[0];
+
+  const draw = () => {
+    const st = profiles[current];
+    if (!st) { $("app").innerHTML = "<p class='neg'>没有可用的档位数据。</p>"; return; }
+    const pos = st.position;
+    const sig = st.signal || {};
+
+    $("pos-badge").textContent = pos ? "持仓 " + pos.direction : "空仓";
+    $("pos-badge").className = "badge " + (pos ? "long" : "flat");
+    $("signal-badge").textContent = sig.ready ? "信号就绪" : "等待信号";
+    $("signal-badge").className = "badge " + (sig.ready ? "ready" : "flat");
+    $("updated").textContent = "更新于 " + (d.generated_at || "").slice(0, 16).replace("T", " ") + " UTC";
+    if (d.data && d.data.stale) $("stale-badge").hidden = false;
+
+    const tabs = Object.keys(profiles).map(p =>
+      `<span class="tab ${p === current ? "on" : ""}" data-p="${esc(p)}">${esc(p)}</span>`
+    ).join("");
+
+    $("app").innerHTML = `
+      <div class="tiles">
+        ${tile("BTC 价格", fmt.usd(st.price), (d.data || {}).timeframe + " 收盘")}
+        ${tile("纸面权益", fmt.usd(st.equity),
+               "起始 " + fmt.usd(st.initial_equity) + " · " + d.paper_start,
+               fmt.sign(st.return_pct))}
+        ${tile("纸面收益", fmt.pct(st.return_pct), st.stats.trades + " 笔交易",
+               fmt.sign(st.return_pct))}
+        ${tile("最大回撤", fmt.pct(st.stats.max_drawdown), "", "neg")}
+        ${tile("持仓状态", pos ? "持仓中" : "空仓",
+               pos ? pos.unrealized_r + "R" : (sig.ready ? "条件已满足" : "等待中"))}
+        ${tile("ATR", fmt.usd(sig.atr), sig.atr_pct != null ? sig.atr_pct + "% 波动" : "")}
+      </div>
+
+      <h2>入场条件</h2>
+      <div class="tabs">${tabs}</div>
+      ${renderGates(sig)}
+      ${sig.would_stop_at ? `<p class="sub">若现在入场，止损将设在
+        ${fmt.usd(sig.would_stop_at)}（${(d.config || {}).atr_stop_mult}× ATR）。</p>` : ""}
+
+      <h2>当前持仓</h2>
+      ${renderPosition(pos)}
+
+      <h2>纸面权益曲线</h2>
+      <div class="card">${sparkline([
+        { label: "纸面权益", color: "#16b364", values: st.curve.equity },
+      ], { h: 180 })}</div>
+
+      <h2>纸面交易记录</h2>
+      ${renderTrades(st.trades)}
+
+      ${renderBacktest(d.backtest)}
+
+      <h2>如实说明</h2>
+      <div class="note">
+        ${d.risk_warning ? `<b class="neg">风险档位提示：</b>${esc(d.risk_warning)}<br><br>` : ""}
+        <b>这些数字应该怎么读。</b>
+        <ul>
+          <li>纸面模拟盘，非实盘。费用按 taker 5bps + 3bps 滑点（止损 8bps）
+              计算，并按持仓时长计收资金费——刻意比真实成交更苛刻。</li>
+          <li>策略配置由走向前验证选出：滚动 3 年拟合、只在其后未见过的
+              1 年计分。全样本数字用于展示，<b>不用于选参</b>。</li>
+          <li>日线宏观过滤器是在看到 2025-26 熊市亏损<b>之后</b>加入的，
+              属事后选择。它被要求满足更高标准：全样本收益不降、回撤改善、
+              且样本外 5 个窗口全部盈利。详见 README 的偏差说明。</li>
+          <li>趋势跟随的收益天然集中在少数交易上，胜率通常低于 40%。
+              长期的横盘震荡市会持续小幅失血。</li>
+          <li>历史回测不预示未来收益。加密市场可以在数小时内跌去 40%。</li>
+        </ul>
+      </div>`;
+
+    document.querySelectorAll(".tab").forEach(el =>
+      el.addEventListener("click", () => { current = el.dataset.p; draw(); }));
+  };
+
+  draw();
+  const cfg = d.config || {};
+  $("subtitle").textContent =
+    `BTC/USDT ${cfg.tf} 趋势跟随 · ${cfg.entry_window} 周期突破 · ` +
+    `EMA${cfg.regime_ema} 趋势过滤 + 日线 EMA${cfg.macro_daily_ema} 宏观过滤 · 纸面交易`;
+  $("foot").innerHTML =
+    `数据 ${esc((d.data || {}).bars)} 根 ${esc((d.data || {}).timeframe)} K 线 · ` +
+    `最新 ${esc(((d.data || {}).last_bar || "").slice(0, 16).replace("T", " "))} UTC · ` +
+    `延迟 ${esc((d.data || {}).age_hours)} 小时`;
+}
+
+fetch("data.json?" + Date.now())
+  .then(r => r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status)))
+  .then(render)
+  .catch(e => {
+    $("app").innerHTML = `<div class="note"><b>无法加载 data.json。</b><br>${esc(e.message)}</div>`;
+    $("updated").textContent = "加载失败";
+  });
+</script>
+</body>
+</html>
