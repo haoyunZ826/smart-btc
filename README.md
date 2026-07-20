@@ -172,10 +172,31 @@ Binance 公开归档（`data.binance.vision`）+ REST 补最新几根。
 `live.py` 通过每次重放全部历史来推导状态，而不是累积增量状态文件。代价是每次约 2 秒，
 换来的是**实盘持仓永远不可能与策略定义漂移** —— 这正是继承仓库栽的跟头。
 
-## 自动化
+## 自动化与看板
 
-`.github/workflows/monitor.yml`：每日 01:20 UTC（4h K 线收盘后）拉数据 → 重放策略
-→ 跑测试 → 发布 Pages。K 线归档走 Actions 缓存，冷启动只发生一次。
+**在线看板**：https://haoyunz826.github.io/smart-btc/
+
+`.github/workflows/monitor.yml`：每日 01:20 UTC（4h K 线收盘后）跑测试 → 拉数据
+→ 重放策略 → `scripts/publish.sh` 推送 `gh-pages` 分支。K 线归档走 Actions 缓存，
+冷启动只发生一次。
+
+测试跑在策略重放**之前**：引擎坏掉时，看板应该继续显示昨天的诚实状态，
+而不是今天的错误状态。
+
+Pages 由 `gh-pages` 分支提供服务，工作流只需要 `contents: write`。
+`scripts/publish.sh` 在本地和 CI 里做的是同一件事，CI 不可用时可手动发布：
+
+```bash
+python3 scripts/monitor.py && bash scripts/publish.sh
+```
+
+本地定时（备用方案）：`bash scripts/install_schedule.sh` 装一个 macOS LaunchAgent，
+每天 09:20 本地时间跑同样的两步。
+
+> **macOS 注意**：本仓库位于 `~/Desktop` 下，而 Desktop/Documents/Downloads 受 TCC 保护，
+> launchd 代理不继承你终端的完全磁盘访问权限 —— 任务会跑起来但 `publish.sh` 报
+> `Operation not permitted`，而同一条命令在终端里完全正常。这不是脚本 bug，是沙箱边界。
+> 优先用 GitHub Actions（云端跑，机器休眠也不影响）；或把仓库移出受保护目录。
 
 ## 授权
 
