@@ -1,0 +1,122 @@
+{
+  "per_window": {
+    "baseline (aggressive)": [
+      638.4,
+      14.9,
+      32.4,
+      206.6,
+      68.4,
+      -11.2,
+      88
+    ],
+    "+dvol 1.00x": [
+      706.7,
+      -7.8,
+      56.5,
+      233.8,
+      23.4,
+      -10.8,
+      49
+    ],
+    "+daily SMA200": [
+      580.2,
+      2.7,
+      16.7,
+      224.6,
+      10.1,
+      13.5,
+      78
+    ],
+    "+thrust.50 +dvol1.25": [
+      341.1,
+      -8.5,
+      72.4,
+      275.6,
+      52.9,
+      17.4,
+      18
+    ],
+    "all three": [
+      513.9,
+      -15.9,
+      65.3,
+      485.3,
+      90.6,
+      21.4,
+      18
+    ],
+    "all three @5%": [
+      269.8,
+      -7.0,
+      26.9,
+      218.0,
+      43.2,
+      14.4,
+      18
+    ]
+  },
+  "labels": [
+    "2020-08-16",
+    "2021-08-16",
+    "2022-08-16",
+    "2023-08-16",
+    "2024-08-15",
+    "2025-08-15"
+  ],
+  "monte_carlo": {
+    "baseline (aggressive)": {
+      "median_final": 9823926.777,
+      "p05_final": 192687.091,
+      "p95_final": 1207642040.977,
+      "median_maxdd": -45.6,
+      "p95_maxdd": -67.5,
+      "prob_loss": 0.1,
+      "prob_ruin_50pct": 34.8
+    },
+    "+dvol 1.00x": {
+      "median_final": 1739125.028,
+      "p05_final": 60780.634,
+      "p95_final": 109401153.684,
+      "median_maxdd": -38.8,
+      "p95_maxdd": -60.5,
+      "prob_loss": 0.4,
+      "prob_ruin_50pct": 18.0
+    },
+    "+daily SMA200": {
+      "median_final": 1421276.28,
+      "p05_final": 40527.549,
+      "p95_final": 113695143.75,
+      "median_maxdd": -46.5,
+      "p95_maxdd": -68.7,
+      "prob_loss": 0.5,
+      "prob_ruin_50pct": 39.0
+    },
+    "+thrust.50 +dvol1.25": {
+      "median_final": 311525.264,
+      "p05_final": 36890.554,
+      "p95_final": 4646825.234,
+      "median_maxdd": -19.6,
+      "p95_maxdd": -35.2,
+      "prob_loss": 0.2,
+      "prob_ruin_50pct": 0.1
+    },
+    "all three": {
+      "median_final": 607391.55,
+      "p05_final": 34795.897,
+      "p95_final": 22788812.478,
+      "median_maxdd": -31.8,
+      "p95_maxdd": -53.8,
+      "prob_loss": 0.7,
+      "prob_ruin_50pct": 7.8
+    },
+    "all three @5%": {
+      "median_final": 166492.049,
+      "p05_final": 27077.148,
+      "p95_final": 1657729.091,
+      "median_maxdd": -15.0,
+      "p95_maxdd": -27.9,
+      "prob_loss": 0.2,
+      "prob_ruin_50pct": 0.0
+    }
+  }
+}

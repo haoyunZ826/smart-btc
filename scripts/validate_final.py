@@ -165,14 +165,18 @@ def main() -> None:
 
     # ---- risk profiles --------------------------------------------------
     print("\n" + "=" * 78)
-    print("RISK PROFILES (same signal, different position size)")
+    print("RISK PROFILES (position size; `filtered` also changes the entry rule)")
     print("=" * 78)
     prof_rows = []
     for name, cfg in RISK_PROFILES.items():
-        s = run(df, S.TrendCore(tf=tf, **params), funding,
+        # A profile may override entry parameters, not just size. Ignoring that
+        # here would print a table where `filtered` shows the unfiltered result.
+        pp = {**params, **(cfg.get("strategy") or {})}
+        s = run(df, S.TrendCore(tf=tf, **pp), funding,
                 cfg["risk_per_trade"], cfg["max_leverage"], tf=tf).stats()
         prof_rows.append({
             "profile": name, "risk": cfg["risk_per_trade"], "lev": cfg["max_leverage"],
+            "filters": ", ".join(f"{k}={v}" for k, v in (cfg.get("strategy") or {}).items()) or "-",
             "return": s["total_return"], "cagr": s["cagr"], "maxDD": s["max_drawdown"],
             "sharpe": s["sharpe"], "calmar": s["calmar"],
         })

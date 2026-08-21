@@ -1,0 +1,179 @@
+{
+  "risk_matched": {
+    "baseline (aggressive)": {
+      "risk/trade %": 5.0,
+      "trades": 110,
+      "full return %": 118615.0,
+      "full maxDD %": -48.7,
+      "CAGR %": 119.4,
+      "Sharpe": 1.51,
+      "Calmar": 2.45,
+      "OOS compounded %": 5053.0,
+      "OOS +win": "5/6",
+      "OOS worst DD %": -48.5
+    },
+    "+thrust 0.50 ATR": {
+      "risk/trade %": 4.18,
+      "trades": 87,
+      "full return %": 58074.0,
+      "full maxDD %": -48.7,
+      "CAGR %": 102.7,
+      "Sharpe": 1.53,
+      "Calmar": 2.11,
+      "OOS compounded %": 2559.0,
+      "OOS +win": "4/6",
+      "OOS worst DD %": -48.3
+    },
+    "+dvol 1.00x": {
+      "risk/trade %": 5.61,
+      "trades": 65,
+      "full return %": 21112.0,
+      "full maxDD %": -48.7,
+      "CAGR %": 81.2,
+      "Sharpe": 1.29,
+      "Calmar": 1.67,
+      "OOS compounded %": 4184.0,
+      "OOS +win": "4/6",
+      "OOS worst DD %": -36.6
+    },
+    "+dvol 1.25x": {
+      "risk/trade %": 4.44,
+      "trades": 50,
+      "full return %": 1239.0,
+      "full maxDD %": -48.7,
+      "CAGR %": 33.4,
+      "Sharpe": 1.0,
+      "Calmar": 0.68,
+      "OOS compounded %": 1838.0,
+      "OOS +win": "4/6",
+      "OOS worst DD %": -29.0
+    },
+    "+daily SMA200": {
+      "risk/trade %": 4.71,
+      "trades": 92,
+      "full return %": 16717.0,
+      "full maxDD %": -48.7,
+      "CAGR %": 76.6,
+      "Sharpe": 1.33,
+      "Calmar": 1.57,
+      "OOS compounded %": 3206.0,
+      "OOS +win": "6/6",
+      "OOS worst DD %": -47.0
+    },
+    "+thrust 0.50 +dvol 1.25": {
+      "risk/trade %": 6.04,
+      "trades": 33,
+      "full return %": 3582.0,
+      "full maxDD %": -48.7,
+      "CAGR %": 49.2,
+      "Sharpe": 1.19,
+      "Calmar": 1.01,
+      "OOS compounded %": 4584.0,
+      "OOS +win": "5/6",
+      "OOS worst DD %": -32.4
+    },
+    "all three (0.50/1.25/200)": {
+      "risk/trade %": 11.25,
+      "trades": 28,
+      "full return %": 6439.0,
+      "full maxDD %": -48.7,
+      "CAGR %": 59.1,
+      "Sharpe": 1.13,
+      "Calmar": 1.21,
+      "OOS compounded %": 11461.0,
+      "OOS +win": "5/6",
+      "OOS worst DD %": -34.8
+    }
+  },
+  "trades_2026": {
+    "baseline (aggressive)": [
+      [
+        "2026-04-22 16:00",
+        -1.07,
+        "stop"
+      ],
+      [
+        "2026-05-04 04:00",
+        -1.11,
+        "stop"
+      ],
+      [
+        "2026-05-05 04:00",
+        -0.62,
+        "stop"
+      ],
+      [
+        "2026-08-20 12:00",
+        0.66,
+        "end_of_data"
+      ]
+    ],
+    "+thrust 0.50 ATR": [
+      [
+        "2026-04-22 16:00",
+        -1.07,
+        "stop"
+      ],
+      [
+        "2026-05-04 04:00",
+        -1.11,
+        "stop"
+      ],
+      [
+        "2026-05-06 12:00",
+        -1.09,
+        "stop"
+      ],
+      [
+        "2026-08-20 12:00",
+        0.66,
+        "end_of_data"
+      ]
+    ],
+    "+dvol 1.00x": [
+      [
+        "2026-05-05 04:00",
+        -0.62,
+        "stop"
+      ],
+      [
+        "2026-08-20 12:00",
+        0.66,
+        "end_of_data"
+      ]
+    ],
+    "+dvol 1.25x": [
+      [
+        "2026-05-05 04:00",
+        -0.62,
+        "stop"
+      ],
+      [
+        "2026-08-20 12:00",
+        0.66,
+        "end_of_data"
+      ]
+    ],
+    "+daily SMA200": [
+      [
+        "2026-08-20 12:00",
+        0.66,
+        "end_of_data"
+      ]
+    ],
+    "+thrust 0.50 +dvol 1.25": [
+      [
+        "2026-08-20 12:00",
+        0.66,
+        "end_of_data"
+      ]
+    ],
+    "all three (0.50/1.25/200)": [
+      [
+        "2026-08-20 12:00",
+        0.66,
+        "end_of_data"
+      ]
+    ]
+  }
+}

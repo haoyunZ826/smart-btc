@@ -69,17 +69,92 @@ DEFAULT_PROFILE = "aggressive"
 # that same figure is 4%. Stepping from balanced to aggressive multiplies the
 # return by roughly 7.5x and the odds of a halving by roughly 10x. That is a
 # risk preference, not a backtest finding.
+# Shown in the dashboard's disclosure box. It has to name the worst thing on the
+# page, not the default — a warning that quietly stops covering the riskiest
+# tier is how a dashboard ends up implying the deep-drawdown option was vetted
+# to the same standard as the others.
 RISK_WARNING = (
     "aggressive (5%/8x): 38% Monte-Carlo chance of a >50% drawdown, "
-    "vs 4% at balanced (3%/5x)"
+    "vs 4% at balanced (3%/5x). "
+    "filtered_hot (15%/15x) is the deep end: -79% max drawdown over the full "
+    "sample, i.e. what is left has to make 4.8x to break even — and the same "
+    "signal wipes out entirely at 30% risk. Paper only, sized from 33 trades."
 )
 
 # Same signal, three appetites. The signal is what was validated; the sizing is
 # a preference, and the drawdown column is the part to read before choosing.
+# The first three profiles are the same signal at different position sizes.
+# `filtered` is the exception and the only one that changes the entry rule, so
+# it is labelled separately everywhere it is displayed.
 RISK_PROFILES = {
     "conservative": {"risk_per_trade": 0.01, "max_leverage": 3.0},
     "balanced":     {"risk_per_trade": 0.03, "max_leverage": 5.0},
     "aggressive":   {"risk_per_trade": 0.05, "max_leverage": 8.0},
+
+    # ON PROBATION — paper only. Not the default, and not a recommendation yet.
+    #
+    # What it is: the same trend signal plus two entry-quality gates, sized up
+    # to 6% because the gates cut trade count roughly 5x. Both gates came from
+    # comparing the four 2026 paper trades, then survived a real test:
+    # scripts/experiment_filters_{entry,risk_matched,robustness}.py.
+    #
+    # What the test actually said (research/entry_filter_*.json):
+    #   * At equal risk-per-trade it LOSES to aggressive (2,174% vs 5,053% OOS).
+    #     The filters do not find a better signal. Anyone quoting them as an
+    #     edge has read the wrong column.
+    #   * The original claim here — "at equal drawdown it roughly holds serve,
+    #     4,584% vs 5,053%" — was WRONG, and wrong in an instructive way: that
+    #     figure came from rolling-window compounding, which restarts equity
+    #     every year. On one continuous account at the same realised drawdown
+    #     (-48.5% vs -48.7%) it is 3,655% vs 121,846%. A 33x gap, not a tie.
+    #   * What survives: the Monte-Carlo probability of a >50% drawdown is 0.0%
+    #     here vs 34.2% for aggressive. That is the only remaining argument for
+    #     this profile, and it is bought with 33x less return.
+    #   * It is worse than aggressive in 2 of 6 out-of-sample windows, both of
+    #     them bull-market legs, where a filter is pure cost.
+    #
+    # Why it stays on probation: only 18 out-of-sample trades in nine years.
+    # The 11.6 profit factor those trades imply is far too few samples to trust,
+    # and the honest expectation is that the real number is materially lower.
+    # Let it run on paper next to the other three before touching DEFAULT_PROFILE.
+    "filtered": {
+        "risk_per_trade": 0.06,
+        "max_leverage": 8.0,
+        "strategy": {"min_thrust_atr": 0.50, "min_dvol_ratio": 1.25},
+    },
+
+    # ON PROBATION, AND THE MOST DANGEROUS SETTING IN THIS FILE. Paper only.
+    #
+    # Same two gates as `filtered`, run hot: 15% risk per trade at 15x. Added on
+    # request after an explicit "I can tolerate deep drawdowns for more return".
+    # It is a legitimate point on the frontier, not a mistake — but it is a
+    # different animal from the tiers above it, so read all four of these:
+    #
+    # 1. -79.4% max drawdown over the full sample. The survivors of that have to
+    #    make 4.8x just to get back to even. That is the actual meaning of the
+    #    number, and it is worth re-reading before this is ever run with money.
+    # 2. There is a liquidation cliff not far above. At 8x the same signal takes
+    #    28% risk with zero liquidations and 30% with a total wipeout
+    #    (2020-05-10, equity -$3.77). The exact location of that cliff is an
+    #    artifact of one candle in one price path. Do not creep toward it.
+    # 3. The size was picked from a return peak estimated on 33 trades. Optimal
+    #    leverage estimated from a sample that small is biased high — this is a
+    #    known statistical property, not a hunch. Half of it (~7%) is the
+    #    defensible reading of the same evidence.
+    # 4. Do NOT rank this against the others by out-of-sample compounded return.
+    #    That metric restarts equity every window, so it cannot represent ruin:
+    #    the 30%-risk config that wipes out scores HIGHEST on it. Judge position
+    #    size on full-sample return plus liquidation count, never on that column.
+    #
+    # Why the filters earn their keep here rather than being dropped: at 20%/15x
+    # the unfiltered signal is liquidated twice (-100%) while this one survives
+    # at -87% and returns 8.6x more. The gates are not the brake, they are what
+    # buys the headroom to run this hot at all.
+    "filtered_hot": {
+        "risk_per_trade": 0.15,
+        "max_leverage": 15.0,
+        "strategy": {"min_thrust_atr": 0.50, "min_dvol_ratio": 1.25},
+    },
 }
 
 # Costs assumed everywhere. Chosen to be slightly worse than a real taker fill

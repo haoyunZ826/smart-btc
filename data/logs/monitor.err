@@ -1,1 +1,14 @@
 bash: scripts/publish.sh: Operation not permitted
+bash: scripts/publish.sh: Operation not permitted
+bash: scripts/publish.sh: Operation not permitted
+bash: scripts/publish.sh: Operation not permitted
+bash: scripts/publish.sh: Operation not permitted
+WARNING: data refresh failed, continuing with local data
+errors: ['data refresh failed:  self._call_chain(*args)\n           ~~~~~~~~~~~~~~~~^^^^^^^\n  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/urllib/request.py", line 466, in _call_chain\n    result = func(*args)\n  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/urllib/request.py", line 613, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 451: \n']
+bash: scripts/publish.sh: Operation not permitted
+WARNING: data refresh failed, continuing with local data
+errors: ['data refresh failed:  self._call_chain(*args)\n           ~~~~~~~~~~~~~~~~^^^^^^^\n  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/urllib/request.py", line 466, in _call_chain\n    result = func(*args)\n  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/urllib/request.py", line 613, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 451: \n']
+bash: scripts/publish.sh: Operation not permitted
+WARNING: data refresh failed, continuing with local data
+errors: ['data refresh failed:  self._call_chain(*args)\n           ~~~~~~~~~~~~~~~~^^^^^^^\n  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/urllib/request.py", line 466, in _call_chain\n    result = func(*args)\n  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/urllib/request.py", line 613, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 451: \n']
+bash: scripts/publish.sh: Operation not permitted

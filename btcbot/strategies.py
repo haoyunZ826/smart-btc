@@ -157,22 +157,41 @@ class TrendCore(Strategy):
     macro_daily_ema: int = 0
     daily: pd.DataFrame | None = None
 
+    # --- entry-quality filters (all default OFF, so the baseline is unchanged) --
+    # Added after four 2026 paper trades showed the losers and the winner
+    # separating on breakout thrust, daily volume and 200-SMA position. Four
+    # observations prove nothing, which is exactly why these are parameters to
+    # be walk-forward tested rather than conditions welded into the entry.
+    min_thrust_atr: float = 0.0     # close must clear the channel by N x ATR
+    min_dvol_ratio: float = 0.0     # prior day volume / its 20d mean
+    macro_daily_sma: int = 0        # prior daily close must be above this SMA
+
     def prepare(self, df):
         sig = F.build(df, self.tf)
         sig["entry_level"], _ = F.donchian(df, self.entry_window)
         if self.exit_window:
             _, sig["exit_level"] = F.donchian(df, self.exit_window)
 
-        if self.macro_daily_ema:
+        needs_daily = self.macro_daily_ema or self.min_dvol_ratio or self.macro_daily_sma
+        if needs_daily:
             if self.daily is None:
-                raise ValueError("macro_daily_ema needs the daily frame")
+                raise ValueError("daily-frame filters need the daily frame")
             d = pd.DataFrame(index=self.daily.index)
             d["macro_close"] = self.daily["close"]
-            d["macro_ema"] = F.ema(self.daily["close"], self.macro_daily_ema)
+            if self.macro_daily_ema:
+                d["macro_ema"] = F.ema(self.daily["close"], self.macro_daily_ema)
+            if self.macro_daily_sma:
+                d["macro_sma"] = F.sma(self.daily["close"], self.macro_daily_sma)
+            if self.min_dvol_ratio:
+                dv = self.daily["volume"]
+                d["dvol_ratio"] = dv / dv.rolling(20, min_periods=20).mean()
             d = d.shift(1)          # yesterday's completed daily bar only
             sig = pd.merge_asof(sig.sort_index(), d.sort_index(),
                                 left_index=True, right_index=True,
                                 direction="backward")
+
+        # Thrust needs no merge: both terms are already causal on this frame.
+        sig["thrust_atr"] = (sig["close"] - sig["entry_level"]) / sig["atr14"]
         return sig
 
     def _size_scale(self, row) -> float:
@@ -200,6 +219,18 @@ class TrendCore(Strategy):
                 return None
         if row["close"] <= row["entry_level"]:
             return None
+        if self.min_thrust_atr:
+            thrust = row.get("thrust_atr", np.nan)
+            if not np.isfinite(thrust) or thrust < self.min_thrust_atr:
+                return None
+        if self.min_dvol_ratio:
+            dvr = row.get("dvol_ratio", np.nan)
+            if not np.isfinite(dvr) or dvr < self.min_dvol_ratio:
+                return None
+        if self.macro_daily_sma:
+            mc, ms = row.get("macro_close", np.nan), row.get("macro_sma", np.nan)
+            if not np.isfinite(mc) or not np.isfinite(ms) or mc <= ms:
+                return None
 
         stop = row["close"] - self.atr_stop_mult * row["atr14"]
         if stop <= 0:
