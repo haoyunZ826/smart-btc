@@ -1,0 +1,59 @@
+name: daily monitor
+
+# Runs after the 00:00 UTC 4h bar has closed and Binance has published it.
+# Also runnable on demand, and on every push to main so the dashboard never
+# lags a config change.
+on:
+  schedule:
+    - cron: "20 1 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+# Pages serves from the gh-pages branch, so this only needs to write contents.
+# Deliberately not actions/deploy-pages: publishing by branch push keeps the
+# permission model small and lets scripts/publish.sh do the identical thing
+# from a laptop when CI is unavailable.
+permissions:
+  contents: write
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: install deps
+        run: pip install -r requirements.txt
+
+      # Kline archives are large and immutable once published, so caching turns
+      # a multi-minute cold fetch into an incremental one.
+      - name: restore kline cache
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: klines-${{ github.run_id }}
+          restore-keys: klines-
+
+      # Tests run BEFORE the strategy replay: if the engine is broken, the
+      # dashboard should keep showing yesterday's honest state rather than
+      # today's wrong one.
+      - name: engine tests
+        run: python -m pytest tests/ -q
+
+      - name: refresh data and replay strategy
+        run: python scripts/monitor.py
+
+      - name: publish dashboard
+        run: bash scripts/publish.sh
