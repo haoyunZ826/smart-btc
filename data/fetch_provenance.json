@@ -1,0 +1,46 @@
+{
+  "fetched_at": "2026-08-21T01:41:51.527049+00:00",
+  "timeframes": {
+    "1h": {
+      "source": "binance-vision-rest",
+      "added": 0,
+      "notes": [],
+      "rows": 78855,
+      "tail_refreshed": 3,
+      "first": "2017-08-17",
+      "archive_bars": 78829,
+      "last_bar": "2026-08-21 01:00",
+      "written": true
+    },
+    "4h": {
+      "source": "binance-vision-rest",
+      "added": 0,
+      "notes": [],
+      "rows": 19729,
+      "tail_refreshed": 3,
+      "first": "2017-08-17",
+      "archive_bars": 19722,
+      "last_bar": "2026-08-21 00:00",
+      "written": true
+    },
+    "1d": {
+      "source": "binance-vision-rest",
+      "added": 0,
+      "notes": [],
+      "rows": 3292,
+      "tail_refreshed": 3,
+      "first": "2017-08-17",
+      "archive_bars": 3290,
+      "last_bar": "2026-08-21 00:00",
+      "written": true
+    }
+  },
+  "funding": {
+    "source": "okx-swap",
+    "rows": 285,
+    "notes": [
+      "binance-fapi: HTTPError HTTP Error 451: "
+    ],
+    "written": true
+  }
+}
