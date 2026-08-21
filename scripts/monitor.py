@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import subprocess
 import sys
 import traceback
@@ -23,6 +24,24 @@ from btcbot.live import PAPER_START, run_paper
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 RESEARCH = ROOT / "research"
+
+
+def json_safe(obj):
+    """Strip non-finite floats before writing.
+
+    Python's json writes Infinity/NaN as bare literals, which the browser's
+    JSON.parse rejects outright — so a profile with zero losing trades (its
+    profit factor is +inf) does not degrade the dashboard, it blanks the whole
+    page with a parse error. Python round-trips the file happily, which is why
+    this only shows up if someone actually opens the page.
+    """
+    if isinstance(obj, float):
+        return obj if math.isfinite(obj) else None
+    if isinstance(obj, dict):
+        return {k: json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [json_safe(v) for v in obj]
+    return obj
 
 
 def refresh_data() -> dict:
@@ -75,6 +94,21 @@ def main() -> None:
     payload["data"]["age_hours"] = round(age_h, 1)
     payload["data"]["stale"] = age_h > 12
 
+    # Which exchange actually served this run. Running on a backup is fine;
+    # running on a backup without knowing it is how you end up explaining a
+    # basis as a strategy edge.
+    prov = ROOT / "data" / "fetch_provenance.json"
+    if prov.exists():
+        payload["data_sources"] = json.loads(prov.read_text())
+        used = {v.get("source") for v in payload["data_sources"]
+                .get("timeframes", {}).values()}
+        used.add(payload["data_sources"].get("funding", {}).get("source"))
+        fallback = sorted(s for s in used
+                          if s and not s.startswith(("binance", "archive", "none")))
+        payload["data"]["on_backup_source"] = fallback
+        if fallback:
+            payload["errors"].append(f"running on backup data source: {', '.join(fallback)}")
+
     payload["profiles"] = {}
     for profile in RISK_PROFILES:
         try:
@@ -97,7 +131,9 @@ def main() -> None:
         }
 
     SITE.mkdir(exist_ok=True)
-    (SITE / "data.json").write_text(json.dumps(payload, indent=2))
+    payload = json_safe(payload)
+    text = json.dumps(payload, indent=2, allow_nan=False)  # raises rather than emit Infinity
+    (SITE / "data.json").write_text(text)
     (SITE / ".nojekyll").write_text("")
 
     default = payload.get("default_profile")

@@ -20,6 +20,7 @@ parameters, the engine owns all accounting.
 
 from __future__ import annotations
 
+import copy
 import math
 from dataclasses import dataclass, field
 from typing import Optional
@@ -120,6 +121,9 @@ class Backtester:
 
         self.equity = self.risk.initial_equity
         self.position: Optional[Position] = None
+        # Set by run() to whatever was still open when the data ran out, because
+        # run() closes it for accounting and `position` is None afterwards.
+        self.open_at_end: Optional[Position] = None
         self.trades: list[Trade] = []
         self.equity_curve: list[tuple] = []
         self._pending_entry = None
@@ -313,7 +317,13 @@ class Backtester:
             self.equity_curve.append((t, self._mark_to_market(closes[i])))
 
         # Close anything still open at the final close, so the curve is honest.
+        # The snapshot matters for the live path: after this the position is
+        # gone, and a monitor that reads `self.position` would report FLAT while
+        # the strategy is actually holding. Research does not care — a run ends
+        # once — but the paper runner replays to *now*, where "still open" is
+        # the whole answer.
         if self.position is not None:
+            self.open_at_end = copy.copy(self.position)
             self._finalize(times[-1], closes[-1], "end_of_data", 0.0)
 
         return Result(self.trades, pd.Series(

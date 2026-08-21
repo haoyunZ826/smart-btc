@@ -61,7 +61,11 @@ def run_paper(profile: str = DEFAULT_PROFILE, start: str = PAPER_START) -> dict:
     lo = max(0, df.index.searchsorted(cut) - 400)
     window = df.iloc[lo:]
 
-    strat = build_strategy(daily)
+    # Most profiles are pure position sizing. A profile may also override the
+    # entry rule (see `filtered` in config), so the strategy is built per
+    # profile rather than once — otherwise every profile would silently trade
+    # the default signal while claiming to trade its own.
+    strat = build_strategy(daily, cfg.get("strategy"))
     bt = Backtester(
         window, strat,
         costs=Costs(**{k: v for k, v in {
@@ -85,6 +89,7 @@ def run_paper(profile: str = DEFAULT_PROFILE, start: str = PAPER_START) -> dict:
 
     state = {
         "profile": profile,
+        "entry_filters": cfg.get("strategy") or {},
         "as_of": df.index[-1].isoformat(),
         "price": price,
         "equity": float(curve.iloc[-1]),
@@ -103,7 +108,12 @@ def run_paper(profile: str = DEFAULT_PROFILE, start: str = PAPER_START) -> dict:
 
 
 def _position_view(bt: Backtester, price: float) -> dict | None:
-    p = bt.position
+    # `bt.position` is always None after run(): the engine closes whatever is
+    # open at the last bar so the equity curve ends honestly. For research that
+    # is correct and invisible. For the paper monitor it was a lie — the last
+    # bar is *now*, and a position that is still open would be reported FLAT,
+    # which is the one thing a position monitor exists to get right.
+    p = bt.position or bt.open_at_end
     if p is None:
         return None
     unrealized = (price - p.entry_price) * p.direction * p.qty
@@ -150,6 +160,36 @@ def _signal_view(last: pd.Series, price: float, strat: S.TrendCore) -> dict:
                        if np.isfinite(macro_ema) else "n/a"),
         },
     }
+
+    # Profile-specific entry filters are real gates. Leaving them out would let
+    # the `filtered` profile display "signal ready" on a bar its own rules
+    # reject — the dashboard equivalent of trading a different strategy than the
+    # one on the label.
+    if strat.min_thrust_atr:
+        thrust = float(last.get("thrust_atr", np.nan))
+        gates["thrust"] = {
+            "label": f"breakout clears channel by {strat.min_thrust_atr:g} x ATR",
+            "pass": bool(np.isfinite(thrust) and thrust >= strat.min_thrust_atr),
+            "detail": (f"{thrust:.2f} vs {strat.min_thrust_atr:g} ATR"
+                       if np.isfinite(thrust) else "n/a"),
+        }
+    if strat.min_dvol_ratio:
+        dvr = float(last.get("dvol_ratio", np.nan))
+        gates["volume"] = {
+            "label": f"prior-day volume >= {strat.min_dvol_ratio:g}x its 20d mean",
+            "pass": bool(np.isfinite(dvr) and dvr >= strat.min_dvol_ratio),
+            "detail": (f"{dvr:.2f}x vs {strat.min_dvol_ratio:g}x"
+                       if np.isfinite(dvr) else "n/a"),
+        }
+    if strat.macro_daily_sma:
+        mc = float(last.get("macro_close", np.nan))
+        ms = float(last.get("macro_sma", np.nan))
+        gates["sma"] = {
+            "label": f"daily close > SMA{strat.macro_daily_sma} (1d)",
+            "pass": bool(np.isfinite(mc) and np.isfinite(ms) and mc > ms),
+            "detail": f"{mc:,.0f} vs {ms:,.0f}" if np.isfinite(ms) else "n/a",
+        }
+
     atr = float(last.get("atr14", np.nan))
     return {
         "gates": gates,
@@ -171,15 +211,20 @@ def _trade_view(result, limit: int = 60) -> list[dict]:
     frame = frame.tail(limit)
     out = []
     for _, t in frame.iterrows():
+        # "end_of_data" is not an exit — it is the engine marking the still-open
+        # position to market at the last bar. Listing it next to real stops would
+        # read as a closed winner that nobody can actually book.
+        still_open = t.reason == "end_of_data"
         out.append({
             "entry_time": str(t.entry_time),
-            "exit_time": str(t.exit_time),
+            "exit_time": None if still_open else str(t.exit_time),
             "entry_price": round(float(t.entry_price), 2),
-            "exit_price": round(float(t.exit_price), 2),
+            "exit_price": None if still_open else round(float(t.exit_price), 2),
             "direction": "long" if t.direction > 0 else "short",
             "pnl": round(float(t.pnl), 2),
             "r": round(float(t.r_multiple), 2),
-            "reason": t.reason,
+            "reason": "open" if still_open else t.reason,
+            "open": still_open,
             "bars_held": int(t.bars_held),
         })
     return list(reversed(out))
