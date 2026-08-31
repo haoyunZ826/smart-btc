@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-30T06:44:20.141963+00:00",
+  "generated_at": "2026-08-31T07:04:19.919466+00:00",
   "paper_start": "2026-01-01",
   "config": {
     "name": "trend_core_v1",
@@ -58,55 +58,55 @@
   "data": {
     "symbol": "BTCUSDT",
     "timeframe": "4h",
-    "bars": 19784,
-    "last_bar": "2026-08-30T04:00:00+00:00",
-    "last_price": 78257.83,
-    "age_hours": 2.7,
+    "bars": 19790,
+    "last_bar": "2026-08-31T04:00:00+00:00",
+    "last_price": 78074.64,
+    "age_hours": 3.1,
     "stale": false,
     "on_backup_source": [
       "okx-swap"
     ]
   },
   "data_sources": {
-    "fetched_at": "2026-08-30T06:44:20.203643+00:00",
+    "fetched_at": "2026-08-31T07:04:19.968555+00:00",
     "timeframes": {
       "1h": {
         "source": "binance-vision-rest",
-        "added": 79076,
+        "added": 79101,
         "notes": [],
-        "rows": 79076,
+        "rows": 79101,
         "tail_refreshed": 0,
         "first": "2017-08-17",
-        "archive_bars": 79069,
-        "last_bar": "2026-08-30 06:00",
+        "archive_bars": 79093,
+        "last_bar": "2026-08-31 07:00",
         "written": true
       },
       "4h": {
         "source": "binance-vision-rest",
-        "added": 19784,
+        "added": 19790,
         "notes": [],
-        "rows": 19784,
+        "rows": 19790,
         "tail_refreshed": 0,
         "first": "2017-08-17",
-        "archive_bars": 19782,
-        "last_bar": "2026-08-30 04:00",
+        "archive_bars": 19788,
+        "last_bar": "2026-08-31 04:00",
         "written": true
       },
       "1d": {
         "source": "binance-vision-rest",
-        "added": 3301,
+        "added": 3302,
         "notes": [],
-        "rows": 3301,
+        "rows": 3302,
         "tail_refreshed": 0,
         "first": "2017-08-17",
-        "archive_bars": 3300,
-        "last_bar": "2026-08-30 00:00",
+        "archive_bars": 3301,
+        "last_bar": "2026-08-31 00:00",
         "written": true
       }
     },
     "funding": {
       "source": "okx-swap",
-      "rows": 290,
+      "rows": 294,
       "notes": [
         "binance-fapi: HTTPError HTTP Error 451: "
       ],
@@ -117,69 +117,56 @@
     "conservative": {
       "profile": "conservative",
       "entry_filters": {},
-      "as_of": "2026-08-30T04:00:00+00:00",
-      "price": 78257.83,
-      "equity": 9783.37566163295,
+      "as_of": "2026-08-31T04:00:00+00:00",
+      "price": 78074.64,
+      "equity": 9758.480761810468,
       "initial_equity": 10000.0,
-      "return_pct": -0.021662433836704964,
-      "position": {
-        "direction": "long",
-        "entry_time": "2026-08-20T12:00:00+00:00",
-        "entry_price": 71948.65,
-        "qty": 0.041753,
-        "notional": 3267.52,
-        "stop": 77622.16,
-        "initial_stop": 70003.54,
-        "liq_price": -155899.08,
-        "unrealized": 263.43,
-        "unrealized_r": 3.24,
-        "bars_held": 59,
-        "funding_paid": 6.96
-      },
+      "return_pct": -0.024151923818953258,
+      "position": null,
       "signal": {
         "gates": {
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "78,258 vs 81,479"
+            "detail": "78,075 vs 81,479"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": true,
-            "detail": "78,258 vs 74,010"
+            "detail": "78,075 vs 74,484"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "78,230 vs 68,523"
+            "detail": "77,682 vs 68,705"
           }
         },
         "ready": false,
-        "atr": 771.34,
-        "atr_pct": 0.99,
-        "rv20": 0.271,
-        "would_stop_at": 76715.14
+        "atr": 811.58,
+        "atr_pct": 1.04,
+        "rv20": 0.29,
+        "would_stop_at": 76451.49
       },
       "stats": {
         "trades": 4,
-        "final_equity": 9783.37566163295,
-        "total_return": -0.021662433836704964,
-        "cagr": -0.025619627182583482,
+        "final_equity": 9758.480761810468,
+        "total_return": -0.024151923818953258,
+        "cagr": -0.028466119028036974,
         "max_drawdown": -0.04888012046433305,
-        "sharpe": -0.5641284708656409,
-        "sortino": -0.18160851088523283,
-        "calmar": -0.5241318339482749,
+        "sharpe": -0.6246308481967189,
+        "sortino": -0.20374304085630346,
+        "calmar": -0.5823659753213618,
         "win_rate": 0.25,
-        "profit_factor": 0.5351142279586586,
-        "avg_r": 0.07312527275773828,
-        "expectancy_r": 0.07312527275773828,
-        "best_r": 3.107295522554373,
+        "profit_factor": 0.4878673981332777,
+        "avg_r": 0.004537177403152959,
+        "expectancy_r": 0.004537177403152959,
+        "best_r": 2.8329431411360315,
         "worst_r": -1.1138406253107629,
-        "total_fees": 25.944358521008457,
-        "total_funding": 6.956053132027846,
-        "avg_bars_held": 28.0,
+        "total_fees": 25.933374598621626,
+        "total_funding": 7.280566879249141,
+        "avg_bars_held": 29.0,
         "liquidations": 0,
-        "exposure": 0.06060606060606061
+        "exposure": 0.06256742179072276
       },
       "curve": {
         "dates": [
@@ -1630,7 +1617,13 @@
           "2026-08-29 16:00",
           "2026-08-29 20:00",
           "2026-08-30 00:00",
-          "2026-08-30 04:00"
+          "2026-08-30 04:00",
+          "2026-08-30 08:00",
+          "2026-08-30 12:00",
+          "2026-08-30 16:00",
+          "2026-08-30 20:00",
+          "2026-08-31 00:00",
+          "2026-08-31 04:00"
         ],
         "equity": [
           10000.0,
@@ -3080,21 +3073,27 @@
           9780.31,
           9782.31,
           9778.65,
-          9783.38
+          9777.54,
+          9779.33,
+          9806.79,
+          9808.04,
+          9758.48,
+          9758.48,
+          9758.48
         ]
       },
       "trades": [
         {
           "entry_time": "2026-08-20 12:00:00+00:00",
-          "exit_time": null,
+          "exit_time": "2026-08-30 20:00:00+00:00",
           "entry_price": 71948.65,
-          "exit_price": null,
+          "exit_price": 77793.79,
           "direction": "long",
-          "pnl": 252.36,
-          "r": 3.11,
-          "reason": "open",
-          "open": true,
-          "bars_held": 59
+          "pnl": 230.08,
+          "r": 2.83,
+          "reason": "stop",
+          "open": false,
+          "bars_held": 63
         },
         {
           "entry_time": "2026-05-05 04:00:00+00:00",
@@ -3137,69 +3136,56 @@
     "balanced": {
       "profile": "balanced",
       "entry_filters": {},
-      "as_of": "2026-08-30T04:00:00+00:00",
-      "price": 78257.83,
-      "equity": 9320.699609662097,
+      "as_of": "2026-08-31T04:00:00+00:00",
+      "price": 78074.64,
+      "equity": 9253.071882531742,
       "initial_equity": 10000.0,
-      "return_pct": -0.06793003903379036,
-      "position": {
-        "direction": "long",
-        "entry_time": "2026-08-20T12:00:00+00:00",
-        "entry_price": 71948.65,
-        "qty": 0.113424,
-        "notional": 8876.31,
-        "stop": 77622.16,
-        "initial_stop": 70003.54,
-        "liq_price": -3760.77,
-        "unrealized": 715.61,
-        "unrealized_r": 3.24,
-        "bars_held": 59,
-        "funding_paid": 18.9
-      },
+      "return_pct": -0.07469281174682585,
+      "position": null,
       "signal": {
         "gates": {
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "78,258 vs 81,479"
+            "detail": "78,075 vs 81,479"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": true,
-            "detail": "78,258 vs 74,010"
+            "detail": "78,075 vs 74,484"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "78,230 vs 68,523"
+            "detail": "77,682 vs 68,705"
           }
         },
         "ready": false,
-        "atr": 771.34,
-        "atr_pct": 0.99,
-        "rv20": 0.271,
-        "would_stop_at": 76715.14
+        "atr": 811.58,
+        "atr_pct": 1.04,
+        "rv20": 0.29,
+        "would_stop_at": 76451.49
       },
       "stats": {
         "trades": 4,
-        "final_equity": 9320.699609662097,
-        "total_return": -0.06793003903379036,
-        "cagr": -0.07998585957216753,
+        "final_equity": 9253.071882531742,
+        "total_return": -0.07469281174682585,
+        "cagr": -0.08761960684157677,
         "max_drawdown": -0.14196723283605078,
-        "sharpe": -0.5691543142438967,
-        "sortino": -0.1811598842801829,
-        "calmar": -0.563410710868319,
+        "sharpe": -0.6269051592003252,
+        "sortino": -0.20224745985678774,
+        "calmar": -0.617181902409574,
         "win_rate": 0.25,
-        "profit_factor": 0.4996850468706897,
-        "avg_r": 0.07312527275773839,
-        "expectancy_r": 0.07312527275773839,
-        "best_r": 3.1072955225543732,
+        "profit_factor": 0.4555663650224268,
+        "avg_r": 0.004537177403152959,
+        "expectancy_r": 0.004537177403152959,
+        "best_r": 2.8329431411360315,
         "worst_r": -1.113840625310763,
-        "total_fees": 74.41259406277668,
-        "total_funding": 18.89632279990985,
-        "avg_bars_held": 28.0,
+        "total_fees": 74.38275591475059,
+        "total_funding": 19.777873933018334,
+        "avg_bars_held": 29.0,
         "liquidations": 0,
-        "exposure": 0.06060606060606061
+        "exposure": 0.06256742179072276
       },
       "curve": {
         "dates": [
@@ -4650,7 +4636,13 @@
           "2026-08-29 16:00",
           "2026-08-29 20:00",
           "2026-08-30 00:00",
-          "2026-08-30 04:00"
+          "2026-08-30 04:00",
+          "2026-08-30 08:00",
+          "2026-08-30 12:00",
+          "2026-08-30 16:00",
+          "2026-08-30 20:00",
+          "2026-08-31 00:00",
+          "2026-08-31 04:00"
         ],
         "equity": [
           10000.0,
@@ -6100,21 +6092,27 @@
           9312.37,
           9317.81,
           9307.87,
-          9320.7
+          9304.84,
+          9309.71,
+          9384.31,
+          9387.71,
+          9253.07,
+          9253.07,
+          9253.07
         ]
       },
       "trades": [
         {
           "entry_time": "2026-08-20 12:00:00+00:00",
-          "exit_time": null,
+          "exit_time": "2026-08-30 20:00:00+00:00",
           "entry_price": 71948.65,
-          "exit_price": null,
+          "exit_price": 77793.79,
           "direction": "long",
-          "pnl": 685.54,
-          "r": 3.11,
-          "reason": "open",
-          "open": true,
-          "bars_held": 59
+          "pnl": 625.01,
+          "r": 2.83,
+          "reason": "stop",
+          "open": false,
+          "bars_held": 63
         },
         {
           "entry_time": "2026-05-05 04:00:00+00:00",
@@ -6157,69 +6155,56 @@
     "aggressive": {
       "profile": "aggressive",
       "entry_filters": {},
-      "as_of": "2026-08-30T04:00:00+00:00",
-      "price": 78257.83,
-      "equity": 8824.837238509657,
+      "as_of": "2026-08-31T04:00:00+00:00",
+      "price": 78074.64,
+      "equity": 8723.15799387801,
       "initial_equity": 10000.0,
-      "return_pct": -0.11751627614903426,
-      "position": {
-        "direction": "long",
-        "entry_time": "2026-08-20T12:00:00+00:00",
-        "entry_price": 71948.65,
-        "qty": 0.170535,
-        "notional": 13345.66,
-        "stop": 77622.16,
-        "initial_stop": 70003.54,
-        "liq_price": 26666.9,
-        "unrealized": 1075.93,
-        "unrealized_r": 3.24,
-        "bars_held": 59,
-        "funding_paid": 28.41
-      },
+      "return_pct": -0.12768420061219898,
+      "position": null,
       "signal": {
         "gates": {
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "78,258 vs 81,479"
+            "detail": "78,075 vs 81,479"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": true,
-            "detail": "78,258 vs 74,010"
+            "detail": "78,075 vs 74,484"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "78,230 vs 68,523"
+            "detail": "77,682 vs 68,705"
           }
         },
         "ready": false,
-        "atr": 771.34,
-        "atr_pct": 0.99,
-        "rv20": 0.271,
-        "would_stop_at": 76715.14
+        "atr": 811.58,
+        "atr_pct": 1.04,
+        "rv20": 0.29,
+        "would_stop_at": 76451.49
       },
       "stats": {
         "trades": 4,
-        "final_equity": 8824.837238509657,
-        "total_return": -0.11751627614903426,
-        "cagr": -0.13769894205480426,
+        "final_equity": 8723.15799387801,
+        "total_return": -0.12768420061219898,
+        "cagr": -0.14901470891301827,
         "max_drawdown": -0.22898843062255328,
-        "sharpe": -0.5746871012159938,
-        "sortino": -0.18090381169702005,
-        "calmar": -0.6013358040859998,
+        "sharpe": -0.6298879366160371,
+        "sortino": -0.20101886361100452,
+        "calmar": -0.6507521297381287,
         "win_rate": 0.25,
-        "profit_factor": 0.4650077102518319,
-        "avg_r": 0.07312527275773839,
-        "expectancy_r": 0.07312527275773839,
-        "best_r": 3.1072955225543732,
+        "profit_factor": 0.42395079379201456,
+        "avg_r": 0.00453717740315307,
+        "expectancy_r": 0.00453717740315307,
+        "best_r": 2.832943141136032,
         "worst_r": -1.1138406253107633,
-        "total_fees": 118.50799421769499,
-        "total_funding": 28.41088870112409,
-        "avg_bars_held": 28.0,
+        "total_fees": 118.46313213994614,
+        "total_funding": 29.736313303164366,
+        "avg_bars_held": 29.0,
         "liquidations": 0,
-        "exposure": 0.06060606060606061
+        "exposure": 0.06256742179072276
       },
       "curve": {
         "dates": [
@@ -7670,7 +7655,13 @@
           "2026-08-29 16:00",
           "2026-08-29 20:00",
           "2026-08-30 00:00",
-          "2026-08-30 04:00"
+          "2026-08-30 04:00",
+          "2026-08-30 08:00",
+          "2026-08-30 12:00",
+          "2026-08-30 16:00",
+          "2026-08-30 20:00",
+          "2026-08-31 00:00",
+          "2026-08-31 04:00"
         ],
         "equity": [
           10000.0,
@@ -9120,21 +9111,27 @@
           8812.31,
           8820.5,
           8805.54,
-          8824.84
+          8800.99,
+          8808.32,
+          8920.47,
+          8925.59,
+          8723.16,
+          8723.16,
+          8723.16
         ]
       },
       "trades": [
         {
           "entry_time": "2026-08-20 12:00:00+00:00",
-          "exit_time": null,
+          "exit_time": "2026-08-30 20:00:00+00:00",
           "entry_price": 71948.65,
-          "exit_price": null,
+          "exit_price": 77793.79,
           "direction": "long",
-          "pnl": 1030.71,
-          "r": 3.11,
-          "reason": "open",
-          "open": true,
-          "bars_held": 59
+          "pnl": 939.71,
+          "r": 2.83,
+          "reason": "stop",
+          "open": false,
+          "bars_held": 63
         },
         {
           "entry_time": "2026-05-05 04:00:00+00:00",
@@ -9180,79 +9177,66 @@
         "min_thrust_atr": 0.5,
         "min_dvol_ratio": 1.25
       },
-      "as_of": "2026-08-30T04:00:00+00:00",
-      "price": 78257.83,
-      "equity": 11605.54126048217,
+      "as_of": "2026-08-31T04:00:00+00:00",
+      "price": 78074.64,
+      "equity": 11448.779031244258,
       "initial_equity": 10000.0,
-      "return_pct": 0.16055412604821706,
-      "position": {
-        "direction": "long",
-        "entry_time": "2026-08-20T12:00:00+00:00",
-        "entry_price": 71948.65,
-        "qty": 0.262919,
-        "notional": 20575.44,
-        "stop": 77622.16,
-        "initial_stop": 70003.54,
-        "liq_price": 34273.81,
-        "unrealized": 1658.8,
-        "unrealized_r": 3.24,
-        "bars_held": 59,
-        "funding_paid": 43.8
-      },
+      "return_pct": 0.14487790312442583,
+      "position": null,
       "signal": {
         "gates": {
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "78,258 vs 81,479"
+            "detail": "78,075 vs 81,479"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": true,
-            "detail": "78,258 vs 74,010"
+            "detail": "78,075 vs 74,484"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "78,230 vs 68,523"
+            "detail": "77,682 vs 68,705"
           },
           "thrust": {
             "label": "breakout clears channel by 0.5 x ATR",
             "pass": false,
-            "detail": "-4.18 vs 0.5 ATR"
+            "detail": "-4.19 vs 0.5 ATR"
           },
           "volume": {
             "label": "prior-day volume >= 1.25x its 20d mean",
             "pass": false,
-            "detail": "0.39x vs 1.25x"
+            "detail": "0.52x vs 1.25x"
           }
         },
         "ready": false,
-        "atr": 771.34,
-        "atr_pct": 0.99,
-        "rv20": 0.271,
-        "would_stop_at": 76715.14
+        "atr": 811.58,
+        "atr_pct": 1.04,
+        "rv20": 0.29,
+        "would_stop_at": 76451.49
       },
       "stats": {
         "trades": 1,
-        "final_equity": 11605.54126048217,
-        "total_return": 0.16055412604821706,
-        "cagr": 0.19297872289490137,
-        "max_drawdown": -0.06549841233825211,
-        "sharpe": 1.4786205085661843,
-        "sortino": 0.5338836496310276,
-        "calmar": 2.946311460166474,
+        "final_equity": 11448.779031244258,
+        "total_return": 0.14487790312442583,
+        "cagr": 0.17329733696600447,
+        "max_drawdown": -0.06549841233825196,
+        "sharpe": 1.3061086177627144,
+        "sortino": 0.45061966166724765,
+        "calmar": 2.6458250021549983,
         "win_rate": 1.0,
         "profit_factor": null,
-        "avg_r": 3.1072955225543732,
-        "expectancy_r": 3.1072955225543732,
-        "best_r": 3.1072955225543732,
-        "worst_r": 3.1072955225543732,
-        "total_fees": 19.74295589255103,
-        "total_funding": 43.80199974491435,
-        "avg_bars_held": 59.0,
+        "avg_r": 2.832943141136032,
+        "expectancy_r": 2.832943141136032,
+        "best_r": 2.832943141136032,
+        "worst_r": 2.832943141136032,
+        "total_fees": 19.67379055461378,
+        "total_funding": 45.845450363133615,
+        "avg_bars_held": 63.0,
         "liquidations": 0,
-        "exposure": 0.03192640692640693
+        "exposure": 0.03398058252427184
       },
       "curve": {
         "dates": [
@@ -10703,7 +10687,13 @@
           "2026-08-29 16:00",
           "2026-08-29 20:00",
           "2026-08-30 00:00",
-          "2026-08-30 04:00"
+          "2026-08-30 04:00",
+          "2026-08-30 08:00",
+          "2026-08-30 12:00",
+          "2026-08-30 16:00",
+          "2026-08-30 20:00",
+          "2026-08-31 00:00",
+          "2026-08-31 04:00"
         ],
         "equity": [
           10000.0,
@@ -12153,21 +12143,27 @@
           11586.23,
           11598.85,
           11575.79,
-          11605.54
+          11568.78,
+          11580.08,
+          11752.98,
+          11760.87,
+          11448.78,
+          11448.78,
+          11448.78
         ]
       },
       "trades": [
         {
           "entry_time": "2026-08-20 12:00:00+00:00",
-          "exit_time": null,
+          "exit_time": "2026-08-30 20:00:00+00:00",
           "entry_price": 71948.65,
-          "exit_price": null,
+          "exit_price": 77793.79,
           "direction": "long",
-          "pnl": 1589.08,
-          "r": 3.11,
-          "reason": "open",
-          "open": true,
-          "bars_held": 59
+          "pnl": 1448.78,
+          "r": 2.83,
+          "reason": "stop",
+          "open": false,
+          "bars_held": 63
         }
       ]
     },
@@ -12177,79 +12173,66 @@
         "min_thrust_atr": 0.5,
         "min_dvol_ratio": 1.25
       },
-      "as_of": "2026-08-30T04:00:00+00:00",
-      "price": 78257.83,
-      "equity": 14013.853151205414,
+      "as_of": "2026-08-31T04:00:00+00:00",
+      "price": 78074.64,
+      "equity": 13621.94757811063,
       "initial_equity": 10000.0,
-      "return_pct": 0.4013853151205413,
-      "position": {
-        "direction": "long",
-        "entry_time": "2026-08-20T12:00:00+00:00",
-        "entry_price": 71948.65,
-        "qty": 0.657297,
-        "notional": 51438.61,
-        "stop": 77622.16,
-        "initial_stop": 70003.54,
-        "liq_price": 57094.56,
-        "unrealized": 4147.0,
-        "unrealized_r": 3.24,
-        "bars_held": 59,
-        "funding_paid": 109.5
-      },
+      "return_pct": 0.3621947578110629,
+      "position": null,
       "signal": {
         "gates": {
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "78,258 vs 81,479"
+            "detail": "78,075 vs 81,479"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": true,
-            "detail": "78,258 vs 74,010"
+            "detail": "78,075 vs 74,484"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "78,230 vs 68,523"
+            "detail": "77,682 vs 68,705"
           },
           "thrust": {
             "label": "breakout clears channel by 0.5 x ATR",
             "pass": false,
-            "detail": "-4.18 vs 0.5 ATR"
+            "detail": "-4.19 vs 0.5 ATR"
           },
           "volume": {
             "label": "prior-day volume >= 1.25x its 20d mean",
             "pass": false,
-            "detail": "0.39x vs 1.25x"
+            "detail": "0.52x vs 1.25x"
           }
         },
         "ready": false,
-        "atr": 771.34,
-        "atr_pct": 0.99,
-        "rv20": 0.271,
-        "would_stop_at": 76715.14
+        "atr": 811.58,
+        "atr_pct": 1.04,
+        "rv20": 0.29,
+        "would_stop_at": 76451.49
       },
       "stats": {
         "trades": 1,
-        "final_equity": 14013.853151205414,
-        "total_return": 0.4013853151205413,
-        "cagr": 0.49169566636792017,
-        "max_drawdown": -0.12877292028859544,
-        "sharpe": 1.6202420910039201,
-        "sortino": 0.6170330747373066,
-        "calmar": 3.8183157240355476,
+        "final_equity": 13621.94757811063,
+        "total_return": 0.3621947578110629,
+        "cagr": 0.4406793965511828,
+        "max_drawdown": -0.12877292028859555,
+        "sharpe": 1.455657055238721,
+        "sortino": 0.5282591082822125,
+        "calmar": 3.4221433789306595,
         "win_rate": 1.0,
         "profit_factor": null,
-        "avg_r": 3.1072955225543732,
-        "expectancy_r": 3.1072955225543732,
-        "best_r": 3.1072955225543732,
-        "worst_r": 3.1072955225543732,
-        "total_fees": 49.357389731377566,
-        "total_funding": 109.5049993622858,
-        "avg_bars_held": 59.0,
+        "avg_r": 2.8329431411360315,
+        "expectancy_r": 2.8329431411360315,
+        "best_r": 2.8329431411360315,
+        "worst_r": 2.8329431411360315,
+        "total_fees": 49.18447638653445,
+        "total_funding": 114.613625907834,
+        "avg_bars_held": 63.0,
         "liquidations": 0,
-        "exposure": 0.03192640692640693
+        "exposure": 0.03398058252427184
       },
       "curve": {
         "dates": [
@@ -13700,7 +13683,13 @@
           "2026-08-29 16:00",
           "2026-08-29 20:00",
           "2026-08-30 00:00",
-          "2026-08-30 04:00"
+          "2026-08-30 04:00",
+          "2026-08-30 08:00",
+          "2026-08-30 12:00",
+          "2026-08-30 16:00",
+          "2026-08-30 20:00",
+          "2026-08-31 00:00",
+          "2026-08-31 04:00"
         ],
         "equity": [
           10000.0,
@@ -15150,21 +15139,27 @@
           13965.58,
           13997.13,
           13939.48,
-          14013.85
+          13921.94,
+          13950.19,
+          14382.45,
+          14402.18,
+          13621.95,
+          13621.95,
+          13621.95
         ]
       },
       "trades": [
         {
           "entry_time": "2026-08-20 12:00:00+00:00",
-          "exit_time": null,
+          "exit_time": "2026-08-30 20:00:00+00:00",
           "entry_price": 71948.65,
-          "exit_price": null,
+          "exit_price": 77793.79,
           "direction": "long",
-          "pnl": 3972.71,
-          "r": 3.11,
-          "reason": "open",
-          "open": true,
-          "bars_held": 59
+          "pnl": 3621.95,
+          "r": 2.83,
+          "reason": "stop",
+          "open": false,
+          "bars_held": 63
         }
       ]
     }
