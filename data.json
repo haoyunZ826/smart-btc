@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T05:57:21.598459+00:00",
+  "generated_at": "2026-10-25T06:12:24.803753+00:00",
   "paper_start": "2026-01-01",
   "config": {
     "name": "trend_core_v1",
@@ -58,55 +58,55 @@
   "data": {
     "symbol": "BTCUSDT",
     "timeframe": "4h",
-    "bars": 20114,
-    "last_bar": "2026-10-24T04:00:00+00:00",
-    "last_price": 80770.01,
-    "age_hours": 2.0,
+    "bars": 20120,
+    "last_bar": "2026-10-25T04:00:00+00:00",
+    "last_price": 80593.59,
+    "age_hours": 2.2,
     "stale": false,
     "on_backup_source": [
       "okx-swap"
     ]
   },
   "data_sources": {
-    "fetched_at": "2026-10-24T05:57:21.642439+00:00",
+    "fetched_at": "2026-10-25T06:12:24.855589+00:00",
     "timeframes": {
       "1h": {
         "source": "binance-vision-rest",
-        "added": 80395,
+        "added": 80420,
         "notes": [],
-        "rows": 80395,
+        "rows": 80420,
         "tail_refreshed": 0,
         "first": "2017-08-17",
-        "archive_bars": 80389,
-        "last_bar": "2026-10-24 05:00",
+        "archive_bars": 80413,
+        "last_bar": "2026-10-25 06:00",
         "written": true
       },
       "4h": {
         "source": "binance-vision-rest",
-        "added": 20114,
+        "added": 20120,
         "notes": [],
-        "rows": 20114,
+        "rows": 20120,
         "tail_refreshed": 0,
         "first": "2017-08-17",
-        "archive_bars": 20112,
-        "last_bar": "2026-10-24 04:00",
+        "archive_bars": 20118,
+        "last_bar": "2026-10-25 04:00",
         "written": true
       },
       "1d": {
         "source": "binance-vision-rest",
-        "added": 3356,
+        "added": 3357,
         "notes": [],
-        "rows": 3356,
+        "rows": 3357,
         "tail_refreshed": 0,
         "first": "2017-08-17",
-        "archive_bars": 3355,
-        "last_bar": "2026-10-24 00:00",
+        "archive_bars": 3356,
+        "last_bar": "2026-10-25 00:00",
         "written": true
       }
     },
     "funding": {
       "source": "okx-swap",
-      "rows": 287,
+      "rows": 290,
       "notes": [
         "binance-fapi: HTTPError HTTP Error 451: "
       ],
@@ -117,8 +117,8 @@
     "conservative": {
       "profile": "conservative",
       "entry_filters": {},
-      "as_of": "2026-10-24T04:00:00+00:00",
-      "price": 80770.01,
+      "as_of": "2026-10-25T04:00:00+00:00",
+      "price": 80593.59,
       "equity": 9398.504175667524,
       "initial_equity": 10000.0,
       "return_pct": -0.06014958243324764,
@@ -128,34 +128,34 @@
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "80,770 vs 84,898"
+            "detail": "80,594 vs 84,898"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": false,
-            "detail": "80,770 vs 82,459"
+            "detail": "80,594 vs 82,242"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "81,189 vs 77,516"
+            "detail": "80,888 vs 77,582"
           }
         },
         "ready": false,
-        "atr": 740.12,
-        "atr_pct": 0.92,
-        "rv20": 0.261,
-        "would_stop_at": 79289.78
+        "atr": 729.37,
+        "atr_pct": 0.9,
+        "rv20": 0.245,
+        "would_stop_at": 79134.85
       },
       "stats": {
         "trades": 8,
         "final_equity": 9398.504175667524,
         "total_return": -0.06014958243324764,
-        "cagr": -0.06047075726530049,
+        "cagr": -0.060309742396671195,
         "max_drawdown": -0.06306226646773933,
-        "sharpe": -0.9708747157797526,
-        "sortino": -0.3755367624959974,
-        "calmar": -0.9589055492674915,
+        "sharpe": -0.9695396062791416,
+        "sortino": -0.3745045954895952,
+        "calmar": -0.956352281241331,
         "win_rate": 0.25,
         "profit_factor": 0.41753666555182684,
         "avg_r": -0.2325882364040179,
@@ -166,7 +166,7 @@
         "total_funding": 18.187995134886698,
         "avg_bars_held": 23.5,
         "liquidations": 0,
-        "exposure": 0.08631772268135904
+        "exposure": 0.08608058608058608
       },
       "curve": {
         "dates": [
@@ -1947,7 +1947,13 @@
           "2026-10-23 16:00",
           "2026-10-23 20:00",
           "2026-10-24 00:00",
-          "2026-10-24 04:00"
+          "2026-10-24 04:00",
+          "2026-10-24 08:00",
+          "2026-10-24 12:00",
+          "2026-10-24 16:00",
+          "2026-10-24 20:00",
+          "2026-10-25 00:00",
+          "2026-10-25 04:00"
         ],
         "equity": [
           10000.0,
@@ -3727,6 +3733,12 @@
           9398.5,
           9398.5,
           9398.5,
+          9398.5,
+          9398.5,
+          9398.5,
+          9398.5,
+          9398.5,
+          9398.5,
           9398.5
         ]
       },
@@ -3832,8 +3844,8 @@
     "balanced": {
       "profile": "balanced",
       "entry_filters": {},
-      "as_of": "2026-10-24T04:00:00+00:00",
-      "price": 80770.01,
+      "as_of": "2026-10-25T04:00:00+00:00",
+      "price": 80593.59,
       "equity": 8225.78980348864,
       "initial_equity": 10000.0,
       "return_pct": -0.177421019651136,
@@ -3843,34 +3855,34 @@
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "80,770 vs 84,898"
+            "detail": "80,594 vs 84,898"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": false,
-            "detail": "80,770 vs 82,459"
+            "detail": "80,594 vs 82,242"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "81,189 vs 77,516"
+            "detail": "80,888 vs 77,582"
           }
         },
         "ready": false,
-        "atr": 740.12,
-        "atr_pct": 0.92,
-        "rv20": 0.261,
-        "would_stop_at": 79289.78
+        "atr": 729.37,
+        "atr_pct": 0.9,
+        "rv20": 0.245,
+        "would_stop_at": 79134.85
       },
       "stats": {
         "trades": 8,
         "final_equity": 8225.78980348864,
         "total_return": -0.177421019651136,
-        "cagr": -0.17830571457359923,
+        "cagr": -0.17786227087293582,
         "max_drawdown": -0.17742101965113596,
-        "sharpe": -0.9749290630842443,
-        "sortino": -0.3737853569926861,
-        "calmar": -1.0049864155002763,
+        "sharpe": -0.9735883733795418,
+        "sortino": -0.37275800374396595,
+        "calmar": -1.0024870290040464,
         "win_rate": 0.25,
         "profit_factor": 0.3997462299083984,
         "avg_r": -0.23258823640401788,
@@ -3881,7 +3893,7 @@
         "total_funding": 50.11297989757251,
         "avg_bars_held": 23.5,
         "liquidations": 0,
-        "exposure": 0.08631772268135904
+        "exposure": 0.08608058608058608
       },
       "curve": {
         "dates": [
@@ -5662,7 +5674,13 @@
           "2026-10-23 16:00",
           "2026-10-23 20:00",
           "2026-10-24 00:00",
-          "2026-10-24 04:00"
+          "2026-10-24 04:00",
+          "2026-10-24 08:00",
+          "2026-10-24 12:00",
+          "2026-10-24 16:00",
+          "2026-10-24 20:00",
+          "2026-10-25 00:00",
+          "2026-10-25 04:00"
         ],
         "equity": [
           10000.0,
@@ -7442,6 +7460,12 @@
           8225.79,
           8225.79,
           8225.79,
+          8225.79,
+          8225.79,
+          8225.79,
+          8225.79,
+          8225.79,
+          8225.79,
           8225.79
         ]
       },
@@ -7547,8 +7571,8 @@
     "aggressive": {
       "profile": "aggressive",
       "entry_filters": {},
-      "as_of": "2026-10-24T04:00:00+00:00",
-      "price": 80770.01,
+      "as_of": "2026-10-25T04:00:00+00:00",
+      "price": 80593.59,
       "equity": 7109.087246540177,
       "initial_equity": 10000.0,
       "return_pct": -0.28909127534598233,
@@ -7558,34 +7582,34 @@
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "80,770 vs 84,898"
+            "detail": "80,594 vs 84,898"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": false,
-            "detail": "80,770 vs 82,459"
+            "detail": "80,594 vs 82,242"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "81,189 vs 77,516"
+            "detail": "80,888 vs 77,582"
           }
         },
         "ready": false,
-        "atr": 740.12,
-        "atr_pct": 0.92,
-        "rv20": 0.261,
-        "would_stop_at": 79289.78
+        "atr": 729.37,
+        "atr_pct": 0.9,
+        "rv20": 0.245,
+        "would_stop_at": 79134.85
       },
       "stats": {
         "trades": 8,
         "final_equity": 7109.087246540177,
         "total_return": -0.28909127534598233,
-        "cagr": -0.2904264939445027,
+        "cagr": -0.28975736431994903,
         "max_drawdown": -0.2890912753459823,
-        "sharpe": -0.9807569881205268,
-        "sortino": -0.3725373682564319,
-        "calmar": -1.0046186748352142,
+        "sharpe": -0.9794082770409603,
+        "sortino": -0.3715134451187596,
+        "calmar": -1.0023040784374055,
         "win_rate": 0.25,
         "profit_factor": 0.3823759636357634,
         "avg_r": -0.23258823640401777,
@@ -7596,7 +7620,7 @@
         "total_funding": 76.28859665323976,
         "avg_bars_held": 23.5,
         "liquidations": 0,
-        "exposure": 0.08631772268135904
+        "exposure": 0.08608058608058608
       },
       "curve": {
         "dates": [
@@ -9377,7 +9401,13 @@
           "2026-10-23 16:00",
           "2026-10-23 20:00",
           "2026-10-24 00:00",
-          "2026-10-24 04:00"
+          "2026-10-24 04:00",
+          "2026-10-24 08:00",
+          "2026-10-24 12:00",
+          "2026-10-24 16:00",
+          "2026-10-24 20:00",
+          "2026-10-25 00:00",
+          "2026-10-25 04:00"
         ],
         "equity": [
           10000.0,
@@ -11157,6 +11187,12 @@
           7109.09,
           7109.09,
           7109.09,
+          7109.09,
+          7109.09,
+          7109.09,
+          7109.09,
+          7109.09,
+          7109.09,
           7109.09
         ]
       },
@@ -11265,8 +11301,8 @@
         "min_thrust_atr": 0.5,
         "min_dvol_ratio": 1.25
       },
-      "as_of": "2026-10-24T04:00:00+00:00",
-      "price": 80770.01,
+      "as_of": "2026-10-25T04:00:00+00:00",
+      "price": 80593.59,
       "equity": 11448.779031244258,
       "initial_equity": 10000.0,
       "return_pct": 0.14487790312442583,
@@ -11276,44 +11312,44 @@
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "80,770 vs 84,898"
+            "detail": "80,594 vs 84,898"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": false,
-            "detail": "80,770 vs 82,459"
+            "detail": "80,594 vs 82,242"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "81,189 vs 77,516"
+            "detail": "80,888 vs 77,582"
           },
           "thrust": {
             "label": "breakout clears channel by 0.5 x ATR",
             "pass": false,
-            "detail": "-5.58 vs 0.5 ATR"
+            "detail": "-5.90 vs 0.5 ATR"
           },
           "volume": {
             "label": "prior-day volume >= 1.25x its 20d mean",
             "pass": false,
-            "detail": "0.88x vs 1.25x"
+            "detail": "0.82x vs 1.25x"
           }
         },
         "ready": false,
-        "atr": 740.12,
-        "atr_pct": 0.92,
-        "rv20": 0.261,
-        "would_stop_at": 79289.78
+        "atr": 729.37,
+        "atr_pct": 0.9,
+        "rv20": 0.245,
+        "would_stop_at": 79134.85
       },
       "stats": {
         "trades": 1,
         "final_equity": 11448.779031244258,
         "total_return": 0.14487790312442583,
-        "cagr": 0.145731663098833,
+        "cagr": 0.14530353081131175,
         "max_drawdown": -0.06549841233825196,
-        "sharpe": 1.2049805954727901,
-        "sortino": 0.3835545397654616,
-        "calmar": 2.22496481817352,
+        "sharpe": 1.2033231677761496,
+        "sortino": 0.38250033580825005,
+        "calmar": 2.2184282889320133,
         "win_rate": 1.0,
         "profit_factor": null,
         "avg_r": 2.832943141136032,
@@ -11324,7 +11360,7 @@
         "total_funding": 45.845450363133615,
         "avg_bars_held": 63.0,
         "liquidations": 0,
-        "exposure": 0.028925619834710745
+        "exposure": 0.028846153846153848
       },
       "curve": {
         "dates": [
@@ -13105,7 +13141,13 @@
           "2026-10-23 16:00",
           "2026-10-23 20:00",
           "2026-10-24 00:00",
-          "2026-10-24 04:00"
+          "2026-10-24 04:00",
+          "2026-10-24 08:00",
+          "2026-10-24 12:00",
+          "2026-10-24 16:00",
+          "2026-10-24 20:00",
+          "2026-10-25 00:00",
+          "2026-10-25 04:00"
         ],
         "equity": [
           10000.0,
@@ -14885,6 +14927,12 @@
           11448.78,
           11448.78,
           11448.78,
+          11448.78,
+          11448.78,
+          11448.78,
+          11448.78,
+          11448.78,
+          11448.78,
           11448.78
         ]
       },
@@ -14909,8 +14957,8 @@
         "min_thrust_atr": 0.5,
         "min_dvol_ratio": 1.25
       },
-      "as_of": "2026-10-24T04:00:00+00:00",
-      "price": 80770.01,
+      "as_of": "2026-10-25T04:00:00+00:00",
+      "price": 80593.59,
       "equity": 13621.94757811063,
       "initial_equity": 10000.0,
       "return_pct": 0.3621947578110629,
@@ -14920,44 +14968,44 @@
           "breakout": {
             "label": "close > 30-bar high",
             "pass": false,
-            "detail": "80,770 vs 84,898"
+            "detail": "80,594 vs 84,898"
           },
           "regime": {
             "label": "close > EMA100 (4h)",
             "pass": false,
-            "detail": "80,770 vs 82,459"
+            "detail": "80,594 vs 82,242"
           },
           "macro": {
             "label": "daily close > EMA100 (1d)",
             "pass": true,
-            "detail": "81,189 vs 77,516"
+            "detail": "80,888 vs 77,582"
           },
           "thrust": {
             "label": "breakout clears channel by 0.5 x ATR",
             "pass": false,
-            "detail": "-5.58 vs 0.5 ATR"
+            "detail": "-5.90 vs 0.5 ATR"
           },
           "volume": {
             "label": "prior-day volume >= 1.25x its 20d mean",
             "pass": false,
-            "detail": "0.88x vs 1.25x"
+            "detail": "0.82x vs 1.25x"
           }
         },
         "ready": false,
-        "atr": 740.12,
-        "atr_pct": 0.92,
-        "rv20": 0.261,
-        "would_stop_at": 79289.78
+        "atr": 729.37,
+        "atr_pct": 0.9,
+        "rv20": 0.245,
+        "would_stop_at": 79134.85
       },
       "stats": {
         "trades": 1,
         "final_equity": 13621.94757811063,
         "total_return": 0.3621947578110629,
-        "cagr": 0.36451657216479894,
+        "cagr": 0.36335198142611125,
         "max_drawdown": -0.12877292028859555,
-        "sharpe": 1.3429310972268496,
-        "sortino": 0.4496390113215157,
-        "calmar": 2.8306927523882632,
+        "sharpe": 1.3410836253333402,
+        "sortino": 0.44840317345256053,
+        "calmar": 2.8216489974118466,
         "win_rate": 1.0,
         "profit_factor": null,
         "avg_r": 2.8329431411360315,
@@ -14968,7 +15016,7 @@
         "total_funding": 114.613625907834,
         "avg_bars_held": 63.0,
         "liquidations": 0,
-        "exposure": 0.028925619834710745
+        "exposure": 0.028846153846153848
       },
       "curve": {
         "dates": [
@@ -16749,7 +16797,13 @@
           "2026-10-23 16:00",
           "2026-10-23 20:00",
           "2026-10-24 00:00",
-          "2026-10-24 04:00"
+          "2026-10-24 04:00",
+          "2026-10-24 08:00",
+          "2026-10-24 12:00",
+          "2026-10-24 16:00",
+          "2026-10-24 20:00",
+          "2026-10-25 00:00",
+          "2026-10-25 04:00"
         ],
         "equity": [
           10000.0,
@@ -18203,6 +18257,12 @@
           13950.19,
           14382.45,
           14402.18,
+          13621.95,
+          13621.95,
+          13621.95,
+          13621.95,
+          13621.95,
+          13621.95,
           13621.95,
           13621.95,
           13621.95,
